@@ -54,7 +54,6 @@ class MainForm : Application(){
 
         sheetNameList = sheetNameList?: FXCollections.observableArrayList("")
 
-// TODO: http://qiita.com/xaatw0/items/969ba45574f6a27e838fを参考にBinding.
         sheetNameCombobox = ComboBox()
         sheetNameCombobox.translateX = -200.0
         sheetNameCombobox.translateY = -70.0
@@ -68,8 +67,13 @@ class MainForm : Application(){
         createButton.translateX = 230.0
         createButton.translateY = 150.0
         createButton.setOnAction { event -> run{
-            spreadsheetAccesser.loadFile(loadFilePathField.text, sheetNameCombobox.selectionModel.selectedItem)
-            jsonFileCreator.createFile(spreadsheetAccesser.ColumnTitleList, spreadsheetAccesser.LoadedSheetItemList)
+            if(! loadFilePathField.text.isNullOrEmpty()
+                    && ! sheetNameCombobox.selectionModel.selectedItem.isNullOrEmpty()
+                    && ! selectedFile?.name.isNullOrEmpty()) {
+                spreadsheetAccesser.loadFile(loadFilePathField.text, sheetNameCombobox.selectionModel.selectedItem)
+
+                jsonFileCreator.createFile(spreadsheetAccesser.ColumnTitleList, spreadsheetAccesser.LoadedSheetItemList, selectedFile!!.name)
+            }
         } }
 
         val stackPane = StackPane()

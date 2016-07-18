@@ -9,7 +9,7 @@ import java.util.ArrayList
  * Created by masanori on 2016/07/18.
  */
 class JsonFileCreater {
-    fun createFile(titleList: ArrayList<String>, valueListCollection: ArrayList<ArrayList<String>>){
+    fun createFile(titleList: ArrayList<String>, valueListCollection: ArrayList<ArrayList<String>>, fileTitle: String){
         val stringWriter = StringWriter()
         val jsonWriter = JsonWriter(BufferedWriter(stringWriter))
         jsonWriter.beginObject()
@@ -24,7 +24,11 @@ class JsonFileCreater {
         val createdJson = String(stringWriter.buffer)
 
         try{
-            val fileWriter = FileWriter("test.json")
+            val splittedTitles = fileTitle.split('.')
+            if(splittedTitles.size <= 0){
+                return
+            }
+            val fileWriter = FileWriter(splittedTitles[0] + ".json")
             fileWriter.write(createdJson)
             fileWriter.close()
         }catch(e: IOException){
