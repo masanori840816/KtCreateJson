@@ -1,0 +1,28 @@
+group 'KtCreateJson'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.0.3'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile group: 'org.apache.poi', name : 'poi', version: '3.14'
+    compile(group: 'org.apache.poi', name : 'poi-ooxml', version: '3.14') {
+        exclude group: 'stax', module: 'stax-api'
+    }
+    compile "com.google.code.gson:gson:2.7"
+}

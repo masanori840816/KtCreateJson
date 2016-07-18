@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KtCreateJson.iml" filepath="$PROJECT_DIR$/.idea/modules/KtCreateJson.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KtCreateJson_main.iml" filepath="$PROJECT_DIR$/.idea/modules/KtCreateJson_main.iml" group="KtCreateJson" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KtCreateJson_test.iml" filepath="$PROJECT_DIR$/.idea/modules/KtCreateJson_test.iml" group="KtCreateJson" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/src/src.iml" filepath="$PROJECT_DIR$/.idea/modules/src/src.iml" group="src" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/src/src_main.iml" filepath="$PROJECT_DIR$/.idea/modules/src/src_main.iml" group="src" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/src/src_test.iml" filepath="$PROJECT_DIR$/.idea/modules/src/src_test.iml" group="src" />
+    </modules>
+  </component>
+</project>
