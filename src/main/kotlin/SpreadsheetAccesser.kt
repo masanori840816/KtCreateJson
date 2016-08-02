@@ -12,9 +12,7 @@ import java.util.ArrayList
 
 class SpreadsheetAccesser {
 
-    lateinit var ColumnTitleList: ArrayList<String>
-        get
-    lateinit var LoadedSheetItemList: ArrayList<ArrayList<String>>
+    lateinit var ToiletInfoList: ArrayList<ToiletInfo>
         get
 
     fun getSheetNames(targetFilePath: String): ObservableList<String>?{
@@ -37,7 +35,6 @@ class SpreadsheetAccesser {
         val fileStream = FileInputStream(targetFilePath)
         val currentWorkbook = WorkbookFactory.create(fileStream)
 
-
         if(currentWorkbook == null){
             return
         }
@@ -50,38 +47,29 @@ class SpreadsheetAccesser {
             return
         }
         // 最初の行から列数を取得する.
-        val columnCount = targetSheet.getRow(0).physicalNumberOfCells - 1
+        if(targetSheet.getRow(0).physicalNumberOfCells >= 9) {
+            ToiletInfoList = ArrayList<ToiletInfo>()
 
-        ColumnTitleList = ArrayList()
-        for(cell in targetSheet.getRow(0)){
-            ColumnTitleList.add(getCellValue(cell))
-        }
-        LoadedSheetItemList = ArrayList<ArrayList<String>>()
+            // 最初の行は項目名なのでスキップ.
+            for (i in 1..rowCount) {
+                val toiletInfo = ToiletInfo()
+                //　2. toiletName, 3. district, 4. municipality, 5. address,
+                //  6. latitude, 7. longitude, 8.availableTime, 9.hasMultiPurposeToilet.
+                toiletInfo.toiletName = targetSheet.getRow(i).getCell(1).stringCellValue
+                toiletInfo.district = targetSheet.getRow(i).getCell(2).stringCellValue
+                toiletInfo.municipality = targetSheet.getRow(i).getCell(3).stringCellValue
+                toiletInfo.address = targetSheet.getRow(i).getCell(4).stringCellValue
+                toiletInfo.latitude = targetSheet.getRow(i).getCell(5).numericCellValue
+                toiletInfo.longitude = targetSheet.getRow(i).getCell(6).numericCellValue
+                var availableTime: String? = targetSheet.getRow(i).getCell(7)?.stringCellValue
+                availableTime = availableTime?: ""
+                toiletInfo.availableTime = availableTime
+                toiletInfo.hasMultiPurposeToilet = targetSheet.getRow(i).getCell(8).booleanCellValue
 
-        for(i in 1..rowCount){
-            val loadedRowItemList = ArrayList<String>()
-            loadedRowItemList.add(i.toString())
-
-            for(t in 1..columnCount){
-                loadedRowItemList.add(getCellValue(targetSheet.getRow(i).getCell(t)))
+                ToiletInfoList.add(toiletInfo)
             }
-            LoadedSheetItemList.add(loadedRowItemList)
         }
         currentWorkbook.close()
         fileStream.close()
-    }
-    fun getCellValue(targetCell: Cell?): String{
-        var result = ""
-        if(targetCell == null){
-            return result
-        }
-        // SpreadsheetにおけるCellの型によらず、一律でStringとしてCellの値を取得.
-        when(targetCell.cellType){
-            Cell.CELL_TYPE_BOOLEAN -> return targetCell.booleanCellValue.toString()
-            Cell.CELL_TYPE_NUMERIC -> return targetCell.numericCellValue.toString()
-            Cell.CELL_TYPE_STRING -> return targetCell.stringCellValue.toString()
-            Cell.CELL_TYPE_FORMULA -> return targetCell.cellFormula.toString()
-        }
-        return result
     }
 }

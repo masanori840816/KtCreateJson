@@ -1,3 +1,4 @@
+import com.google.gson.Gson
 import com.google.gson.stream.JsonWriter
 import java.io.BufferedWriter
 import java.io.FileWriter
@@ -9,16 +10,15 @@ import java.util.ArrayList
  * Created by masanori on 2016/07/18.
  */
 class JsonFileCreater {
-    fun createFile(titleList: ArrayList<String>, valueListCollection: ArrayList<ArrayList<String>>, fileTitle: String){
+    fun createFile(toiletInfoList: ArrayList<ToiletInfo>, fileTitle: String){
         val stringWriter = StringWriter()
         val jsonWriter = JsonWriter(BufferedWriter(stringWriter))
+        jsonWriter.setIndent("  ")
         jsonWriter.beginObject()
-        valueListCollection.forEach { valueList -> run{
-                for(i in 0..valueList.size - 1){
-                    jsonWriter.name(titleList[i]).value(valueList[i])
-                }
-            }
-        }
+
+        val gson = Gson()
+        jsonWriter.name("toiletInfo").jsonValue(gson.toJson(toiletInfoList))
+
         jsonWriter.endObject()
         jsonWriter.close()
         val createdJson = String(stringWriter.buffer)

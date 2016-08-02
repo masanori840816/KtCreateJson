@@ -72,7 +72,7 @@ class MainForm : Application(){
                     && ! selectedFile?.name.isNullOrEmpty()) {
                 spreadsheetAccesser.loadFile(loadFilePathField.text, sheetNameCombobox.selectionModel.selectedItem)
 
-                jsonFileCreator.createFile(spreadsheetAccesser.ColumnTitleList, spreadsheetAccesser.LoadedSheetItemList, selectedFile!!.name)
+                jsonFileCreator.createFile(spreadsheetAccesser.ToiletInfoList, selectedFile!!.name)
             }
         } }
 
